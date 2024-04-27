@@ -7,13 +7,14 @@ import com.teixeirarios.metalagainstdemons.domain.entities.InputHandler;
 import com.teixeirarios.metalagainstdemons.domain.entities.Player;
 import com.teixeirarios.metalagainstdemons.domain.entities.PlayerFactory;
 import com.teixeirarios.metalagainstdemons.domain.entities.Scenario;
+import com.teixeirarios.metalagainstdemons.infrastructure.ui.Camera;
 
 public class MetalAgainstDemons extends ApplicationAdapter {
 	SpriteBatch batch;
 	Player player;
 	InputHandler inputHandler;
-
 	Scenario scenario;
+	Camera camera;
 	
 	@Override
 	public void create () {
@@ -21,6 +22,7 @@ public class MetalAgainstDemons extends ApplicationAdapter {
 		inputHandler = new InputHandler();
 		player = PlayerFactory.create(batch, inputHandler);
 		scenario = new Scenario(batch);
+		camera = new Camera(batch);
 	}
 
 	@Override
@@ -29,6 +31,7 @@ public class MetalAgainstDemons extends ApplicationAdapter {
 		batch.begin();
 		scenario.drawBackground();
 		player.update();
+		camera.setCameraPosition(player);
 		batch.end();
 	}
 	

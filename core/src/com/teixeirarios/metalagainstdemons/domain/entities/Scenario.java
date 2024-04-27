@@ -19,6 +19,12 @@ public class Scenario {
     }
 
     public void drawBackground() {
-        tiledBackground.draw(batch, 0, 0, Gdx.graphics.getWidth() * 100, Gdx.graphics.getHeight() * 100);
+        tiledBackground.draw(
+                batch,
+                -(Gdx.graphics.getWidth() * 50),
+                -(Gdx.graphics.getHeight() * 50),
+                Gdx.graphics.getWidth() * 100,
+                Gdx.graphics.getHeight() * 100
+        );
     }
 }

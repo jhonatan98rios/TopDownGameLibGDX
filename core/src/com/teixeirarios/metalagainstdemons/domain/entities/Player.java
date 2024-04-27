@@ -6,10 +6,11 @@ import com.teixeirarios.metalagainstdemons.infrastructure.ui.AbstractCanvas;
 public class Player {
     public AbstractCanvas playerView;
     public PlayerController playerController;
-
     public float posX;
     public float posY;
     public float velocity;
+
+    char posDirection;
 
 
     public Player(AbstractCanvas playerView, PlayerController playerController) {
@@ -17,27 +18,27 @@ public class Player {
         this.playerController = playerController;
         this.posX = 0;
         this.posY = 0;
-        this.velocity = 2;
+        this.posDirection = 'L';
+        this.velocity = 2.5F;
     }
 
     public void update() {
         move();
         playerView.animate();
-        playerView.drawImage(0, getDirection(), 50, 100, posX, posY, 50, 100);
+        playerView.drawImage(0, getSprite(), 93, 66, posX, posY, 93, 66);
     }
 
     public void dispose() {
         playerView.dispose();
     }
 
-    public float getDirection() {
-        return playerController.isMvRight() ? 300f
-                : playerController.isMoving() ? 100f
-                : 0f;
+    public float getSprite() {
+        return playerController.isMoving()
+                ? posDirection == 'L' ? 66 : 257
+                : posDirection == 'L' ? 0 : 191;
     }
 
     public void move() {
-
         final Boolean isMvHorizontally = (playerController.isMvLeft() || playerController.isMvRight());
         final Boolean isMvVertically = (playerController.isMvDown() || playerController.isMvUp());
 
@@ -47,8 +48,10 @@ public class Player {
 
         if (playerController.isMvLeft() && !playerController.isMvRight()) {
             posX -= TEMP_SPEED;
+            posDirection = 'L';
         } else if (playerController.isMvRight() && !playerController.isMvLeft()) {
             posX += TEMP_SPEED;
+            posDirection = 'R';
         }
 
         if (playerController.isMvUp() && !playerController.isMvDown()) {

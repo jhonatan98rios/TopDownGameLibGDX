@@ -7,7 +7,7 @@ import com.teixeirarios.metalagainstdemons.infrastructure.ui.LibGDXFacade;
 public class PlayerFactory {
 
     public static Player create (SpriteBatch batch, InputHandler inputHandler) {
-        AbstractCanvas playerView = new LibGDXFacade(batch, "spritesheet.png", 4, 0.10F, 50);
+        AbstractCanvas playerView = new LibGDXFacade(batch, "sprites.png", 4, 0.25F, 93);
         PlayerController playerController = new PlayerController(inputHandler);
         Player player = new Player(playerView, playerController);
         return player;
