@@ -1,11 +1,15 @@
 package com.teixeirarios.metalagainstdemons.domain.entities;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class PlayerController implements InputObserver {
 
     private Boolean mvLeft = false;
     private Boolean mvUp = false;
     private Boolean mvRight = false;
     private Boolean mvDown = false;
+    private Boolean roll = false;
 
     public PlayerController (InputHandler inputHandler) {
         inputHandler.addObserver(this);
@@ -31,6 +35,10 @@ public class PlayerController implements InputObserver {
         return mvDown;
     }
 
+    public boolean isRolling() {
+        return roll;
+    }
+
     @Override
     public void notifyMoveLeft() {
         mvLeft = true;
@@ -52,6 +60,20 @@ public class PlayerController implements InputObserver {
     }
 
     @Override
+    public void notifyRoll() {
+        if (roll == false && isMoving()) {
+            roll = true;
+
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    roll = false;
+                }
+            }, 500L);
+        }
+    }
+
+    @Override
     public void notifyStopMoveLeft() {
         mvLeft = false;
     }
@@ -70,4 +92,5 @@ public class PlayerController implements InputObserver {
     public void notifyStopMoveDown() {
         mvDown = false;
     }
+
 }

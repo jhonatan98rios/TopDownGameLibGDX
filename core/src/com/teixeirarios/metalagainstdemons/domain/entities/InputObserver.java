@@ -5,9 +5,9 @@ public interface InputObserver {
     void notifyMoveRight();
     void notifyMoveUp();
     void notifyMoveDown();
-
     void notifyStopMoveLeft();
     void notifyStopMoveRight();
     void notifyStopMoveUp();
     void notifyStopMoveDown();
+    void notifyRoll();
 }

@@ -52,6 +52,12 @@ public class InputHandler implements InputProcessor {
             }
         }
 
+        else if (keycode == Input.Keys.SPACE) {
+            for (InputObserver observer : observers) {
+                observer.notifyRoll();
+            }
+        }
+
         return true;
     }
 

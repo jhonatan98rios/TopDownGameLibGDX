@@ -8,7 +8,7 @@ public class Player {
     public PlayerController playerController;
     public float posX;
     public float posY;
-    public float velocity;
+    public final float velocity;
 
     char posDirection;
 
@@ -19,7 +19,7 @@ public class Player {
         this.posX = 0;
         this.posY = 0;
         this.posDirection = 'L';
-        this.velocity = 2.5F;
+        this.velocity = 2.5f;
     }
 
     public void update() {
@@ -33,18 +33,24 @@ public class Player {
     }
 
     public float getSprite() {
-        return playerController.isMoving()
+        float sprite = playerController.isMoving()
                 ? posDirection == 'L' ? 66 : 257
                 : posDirection == 'L' ? 0 : 191;
+
+        sprite = playerController.isRolling()
+                ? posDirection == 'L' ? 132 : 330
+                : sprite;
+
+        return sprite;
     }
 
     public void move() {
         final Boolean isMvHorizontally = (playerController.isMvLeft() || playerController.isMvRight());
         final Boolean isMvVertically = (playerController.isMvDown() || playerController.isMvUp());
+        final Boolean isDiagonal = isMvHorizontally && isMvVertically;
 
-        final float TEMP_SPEED = (isMvHorizontally && isMvVertically)
-                ? velocity / 1.4f
-                : velocity;
+        final float TEMP_SPEED = playerController.isRolling() ? isDiagonal ? velocity * 1.42f : velocity * 2f
+                : isDiagonal ? velocity / 1.4f : velocity;
 
         if (playerController.isMvLeft() && !playerController.isMvRight()) {
             posX -= TEMP_SPEED;
