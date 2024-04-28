@@ -1,5 +1,7 @@
 package com.teixeirarios.metalagainstdemons.domain.entities;
 
+import com.teixeirarios.metalagainstdemons.infrastructure.ui.VirtualJoystick;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,8 +13,9 @@ public class PlayerController implements InputObserver {
     private Boolean mvDown = false;
     private Boolean roll = false;
 
-    public PlayerController (InputHandler inputHandler) {
+    public PlayerController (InputHandler inputHandler, VirtualJoystick joystick) {
         inputHandler.addObserver(this);
+        joystick.addObserver(this);
     }
 
     public Boolean isMoving() {

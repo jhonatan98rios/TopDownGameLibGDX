@@ -1,29 +1,25 @@
 package com.teixeirarios.metalagainstdemons.domain.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputHandler implements InputProcessor {
+public class InputHandler implements InputProcessor, AbstractInputHandler {
 
     private List<InputObserver> observers;
 
+    private static final long DOUBLE_CLICK_TIME_DELTA = 500;
+    private long lastClickTime = 0;
+
     public InputHandler () {
-        Gdx.input.setInputProcessor(this);
         observers = new ArrayList<>();
     }
 
     public void addObserver(InputObserver observer) {
         observers.add(observer);
     }
-
-    public void removeObserver(InputObserver observer) {
-        observers.remove(observer);
-    }
-
 
     @Override
     public boolean keyDown(int keycode) {
@@ -97,6 +93,13 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        long clickTime = System.currentTimeMillis();
+        if ((clickTime - lastClickTime) < DOUBLE_CLICK_TIME_DELTA) {
+            for (InputObserver observer : observers) {
+                observer.notifyRoll();
+            }
+        }
+        lastClickTime = clickTime;
         return false;
     }
 
@@ -124,5 +127,4 @@ public class InputHandler implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-
 }
